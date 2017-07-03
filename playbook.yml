@@ -1,0 +1,15 @@
+---
+- name: a playbook to setup my local machine with my basic customizations
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/all.yml
+    - vars/user.yml
+  vars:
+    system:
+      user: hafnon
+  roles:
+    - system
+    - git
+    - terminal
+

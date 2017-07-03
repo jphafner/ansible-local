@@ -1,0 +1,22 @@
+---
+# Update sshd configuration safely, avoid locking yourself out
+## master with include
+- template:
+    src: template/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'
+    validate: /usr/sbin/sshd -t -f %s
+    backup: yes
+
+## copy config.d/ to .ssh/config.d/
+- template:
+    src: template/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'
+    validate: /usr/sbin/sshd -t -f %s
+    backup: yes
+

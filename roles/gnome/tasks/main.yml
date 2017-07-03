@@ -1,0 +1,31 @@
+---
+- name: Install desktop package
+  become: yes
+  copy:
+    src: ../files/something.desktop
+    dest: /etc/foo.conf
+    owner: foo
+    group: foo
+    mode: 0644
+
+- name:  template everything for fooserv
+    template: src={{item.0}} dest={{item.1}}
+    with_items:
+      - [ 'templates/foo.j2', '/etc/splat/foo.conf' ]
+      - [ 'templates/bar.j2', '/etc/splat/bar.conf' ]
+    notify: 
+      - restart fooserv
+
+
+- hosts: loc
+  tasks:
+    - name: Ansible template with_items example.
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: 0777
+      with_items:
+        - {src: 'ex.j2',dest: '/home/dnpjose/ex_rew1.txt'}
+        - {src: 'ex2.j2',dest: '/home/dnpjose/ex_rew2.txt'}
+        - {src: 'ex3.j2',dest: '/home/dnpjose/ex_rew3.txt'}
+
