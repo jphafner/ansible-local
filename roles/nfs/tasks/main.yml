@@ -1,0 +1,25 @@
+---
+- name: enable export directory
+  lineinfile:
+    path: /etc/exports
+    regexp: '^/srv'
+    line: '/srv *(rw,sec=krb5,no_subtree_check,no_root_squash)'
+
+- name: enable secure NFS
+  lineinfile:
+    path: /etc/sysconfig/nfs
+    regexp: '^SECURE_NFS'
+    line: 'SECURE_NFS="yes"'
+
+- name: enable nfs server
+  systemd:
+      name: nfs.service
+      enabled: yes
+      state: started
+
+- name: enable nfs-secure server
+  systemd:
+      name: nfs-secure.service
+      enabled: yes
+      state: started
+

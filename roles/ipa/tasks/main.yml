@@ -1,0 +1,10 @@
+---
+- name: install freeipa-client
+  dnf:
+    name: freeipa-client
+    state: latest
+
+- name: ip-client-install
+    command: ipa-client-install
+    become: true
+

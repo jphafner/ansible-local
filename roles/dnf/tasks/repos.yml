@@ -1,0 +1,95 @@
+---
+#- name: validate rpmfusion repository
+#  dnf:
+#    name: "{{ item }}"
+#    state: present
+#    with_items:
+#      - rpmfusion-non-free-release
+#      - rpmfusion-non-nonfree-release
+
+- name: check for rmpfusion repository
+  command: rpm -q rpmfusion-free-release-{{ dnf_releasever }}
+  register: rpm_query_rpmfusion
+  ignore_errors: true
+
+- name: add rpmfusion free and non-free repository
+  dnf:
+    name: "{{ item }}"
+    state: present
+    with_items:
+     - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ dnf_releasever) }}.noarch.rpm"
+     - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ dnf_releasever }}.noarch.rpm"
+    when: rpm_query_rpmfusion.rc == 1
+
+- name: check for Adobe repository
+  command: rpm -q adobe-release-{{ dnf_releasever }}-1.0-1
+  register: rpm_query_adobe
+  ignore_errors: true
+  ## stdout, stderr, rc
+  #changed_when: rpm_query_adobe.rc == 0
+  #failed_when: rpm_query_adobe.rc == 0
+
+- name: add Adobe repository
+  dnf:
+    name: "http://linuxdownload.adobe.com/adobe-release/adobe-release-{{ dnf_basearch }}-1.0-1.noarch.rpm"
+    state: present
+    when: rpm_query_adobe.rc == 1
+
+- name: add Adobe signature key
+  rpm_key:
+    state: present
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+
+
+- name: add Google base repository
+  yum_repository:
+    state: preesnt
+    name: google
+    description: Google - $basearch
+    baseurl: http://dl.google.com/linux/rpm/stable/$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
+
+- name: add Google Chrome repository
+  yum_repository:
+    state: preesnt
+    name: google-chrome
+    description: Google Chrome - $basearch
+    baseurl: http://dl.google.com/linux/chrome/rpm/stable/$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
+
+- name: add Google Earth repository
+  yum_repository:
+    state: preesnt
+    name: google-earth
+    description: Google Earth - $basearch
+    baseurl: http://dl.google.com/linux/earth/rpm/stable/$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
+
+## Also, musicmanager, mod_pagespeed, talkplugin
+
+#- name: add Google signature key
+#  rpm_key:
+#    state: present
+#    key: https://dl.google.com/linux/linux_signing_key.pub
+
+
+- name: add OpenH264 codec
+  command: dnf config-manager --set-enabled fedora-cisco-openh264
+  become: true
+
+#- name: activate Cisco OpenH264
+#  lineinfile:
+#    state: present
+#    path: /etc/yum.repos.d/fedora-cisco-openh264.repo
+#    regexp: '^enabled='
+#    line: 'enabled=1'
+#    owner: root
+#    group: root
+#    mode: 0644
+

@@ -1,0 +1,21 @@
+---
+- name: upgrade all packages
+  dnf:
+    name: "*"
+    state: latest
+
+- name: install the 'Development tools' package group
+  dnf:
+    name: '@Development tools'
+    state: present
+
+- name: Autoremove unneeded packages installed as dependencies
+  dnf:
+    autoremove: yes
+
+- name: Uninstall httpd but keep its dependencies
+  dnf:
+    name: httpd
+    state: absent
+    autoremove: no
+
