@@ -20,40 +20,27 @@
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
   become: true
 
-- name: add Google base repository
+- name: add Google repositories
   yum_repository:
     state: present
-    name: google
-    description: Google - $basearch
-    baseurl: http://dl.google.com/linux/rpm/stable/$basearch
+    file: /etc/yum.repos.d/google-{{ dnf_basearch }}.repo
+    name: google-chrome-{{ item }}
+    description: Google {{ item }} - $basearch
+    baseurl: http://dl.google.com/linux/{{ item }}/rpm/stable/$basearch
     enabled: yes
     gpgcheck: yes
     gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
   become: true
+  with_item:
+      - earth
+      - chrome
+      - mod-pagespeed
 
-- name: add Google Chrome repository
+- name: enable fedora-cisco-openh246
   yum_repository:
     state: present
-    name: google-chrome
-    description: Google Chrome - $basearch
-    baseurl: http://dl.google.com/linux/chrome/rpm/stable/$basearch
+    file: /etc/yum.repos.d/fedora-cisco-openh264.repo
+    name: fedora-cisco-openh264
     enabled: yes
-    gpgcheck: yes
-    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
-  become: true
-
-- name: add Google Earth repository
-  yum_repository:
-    state: present
-    name: google-earth
-    description: Google Earth - $basearch
-    baseurl: http://dl.google.com/linux/earth/rpm/stable/$basearch
-    enabled: yes
-    gpgcheck: yes
-    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
-  become: true
-
-- name: add OpenH264 codec repository
-  command: dnf config-manager --set-enabled fedora-cisco-openh264
   become: true
 

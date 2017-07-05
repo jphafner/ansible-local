@@ -1,54 +1,12 @@
 
 
-## rpmfusion
-
-sudo dnf install \
-  https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-  https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
-
-
-## Adobe Repository 32-bit x86 ##
-rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-i386-1.0-1.noarch.rpm
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
-
-## Adobe Repository 64-bit x86_64 ##
-rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
-
 dnf install flash-plugin alsa-plugins-pulseaudio libcurl
 
-## Google
-
-/etc/yum.repos.d/google.repo
-
-[google]
-name=Google - $basearch
-baseurl=http://dl.google.com/linux/rpm/stable/$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
-
-/etc/yum.repos.d/google-chrome.repo
-
-[google-chrome]
-name=google-chrome
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
-
-/etc/yum.repos.d/google-earth.repo
-
-[google-earth]
-name=google-earth
-baseurl=http://dl.google.com/linux/earth/rpm/stable/$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
-
-
-
+## Possibly use with_item to loop through all settings
+- name: Remove Launcher Icons
+  command: gsettings set com.canonical.Unity.Launcher favorites "['application://org.gnome.Nautilus.desktop', 'application://firefox.desktop', 'application://gnome-terminal.desktop', 'application://atom.desktop', 'application://unity-control-center.desktop', 'unity://running-apps', 'unity://expo-icon', 'unity://devices']"
+  become: true
+  become_user: "{{ user }}"
 
 # Example from Ansible Playbooks
 - template:
