@@ -23,7 +23,7 @@
 - name: add Google repositories
   yum_repository:
     state: present
-    file: /etc/yum.repos.d/google-{{ dnf_basearch }}.repo
+    file: /etc/yum.repos.d/google-{{ dnf_basearch }}
     name: google-chrome-{{ item }}
     description: Google {{ item }} - $basearch
     baseurl: http://dl.google.com/linux/{{ item }}/rpm/stable/$basearch
@@ -31,16 +31,22 @@
     gpgcheck: yes
     gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub  
   become: true
-  with_item:
+  with_items:
       - earth
       - chrome
       - mod-pagespeed
 
 - name: enable fedora-cisco-openh246
-  yum_repository:
-    state: present
-    file: /etc/yum.repos.d/fedora-cisco-openh264.repo
-    name: fedora-cisco-openh264
-    enabled: yes
+  command: dnf config-manager --set-enabled fedora-cisco-openh246
   become: true
+
+#- name: enable fedora-cisco-openh246
+#  yum_repository:
+#    state: present
+#    file: /etc/yum.repos.d/fedora-cisco-openh264
+#    name: fedora-cisco-openh264
+#    description: Fedora $releasever openh264 (From Cisco) - $basearch
+#    baseurl: https://codecs.fedoraproject.org/openh264/$releasever/$basearch
+#    enabled: yes
+#  become: true
 

@@ -1,0 +1,40 @@
+---
+- name: Install tmux package
+  dnf:
+    name: tmux
+    state: latest
+  become: yes
+  when: ansible_distribution == 'Fedora'
+
+- name: Install tmux package
+  apt:
+    name: tmux
+    state: latest
+    update_cach: no
+  become: yes
+  when: ansible_distribution == 'Debian'
+
+#- name: Install tmuxp
+#  pip:
+#    name: tmuxp
+#    state: latex
+#  when: tmux_install_tmuxp
+
+- name: Install tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: ~/.tmux/plugins/tpm"
+
+#- name: Symlink .tmux.conf
+#  file:
+#    src: tmux.conf
+#    dest: ~/.tmux.conf
+#    state: link
+
+- name: Change .tmux.conf
+  template:
+    src: tmux.conf.tpl
+    dest: ~/.tmux.conf
+    force: yes
+    backup: yes
+

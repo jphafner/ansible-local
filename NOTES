@@ -1,4 +1,5 @@
 
+https://github.com/jistr/ansible-gsetting
 
 dnf install flash-plugin alsa-plugins-pulseaudio libcurl
 

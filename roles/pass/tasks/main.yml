@@ -1,3 +1,19 @@
 ---
+- name: Install password store package
+  dnf:
+    name: pass
+    state: latest
+  become: yes
+  when: ansible_distribution == 'Fedora'
+
+- name: Install password store package
+  apt:
+    name: pass
+    state: latest
+    update_cache: no
+  become: yes
+  when: ansible_distribution == 'Debian'
+
+
 - name: copy password-store directory
   template:

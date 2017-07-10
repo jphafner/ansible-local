@@ -29,3 +29,19 @@
         - {src: 'ex2.j2',dest: '/home/dnpjose/ex_rew2.txt'}
         - {src: 'ex3.j2',dest: '/home/dnpjose/ex_rew3.txt'}
 
+- name: do not remember mount password
+  gsetting:
+    user: jistr
+    key: "{{ key }}"
+    value: "{{ value }}"
+  with_items:
+    - {key: ' ', value: ' '}
+
+- name: shortcut panel-main-menu
+  gsetting: user=jistr
+    key=org.gnome.desktop.wm.keybindings.panel-main-menu
+    value="@as []"
+
+
+          gsettings set org.gnome.settings-daemon.plugins.power active false
+          gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
