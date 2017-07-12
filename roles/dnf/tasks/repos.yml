@@ -8,6 +8,14 @@
     - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ dnf_releasever }}.noarch.rpm"
   become: true
 
+- name: add rpmfusion signature keys
+  rpm_key:
+    state: present
+    key: {{ item }}
+  become: true
+  with_fileglob:
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-*"
+
 - name: add Adobe repository
   dnf:
     name: "http://linuxdownload.adobe.com/adobe-release/adobe-release-{{ dnf_basearch }}-1.0-1.noarch.rpm"

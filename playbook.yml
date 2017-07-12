@@ -9,7 +9,7 @@
     system:
       user: hafnon
   roles:
-    - git
-    - pass
+    - bash
+    #- pass
     #- dnf
 

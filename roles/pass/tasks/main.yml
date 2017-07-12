@@ -17,3 +17,7 @@
 
 - name: copy password-store directory
   template:
+    src: {{ item }}
+    dest: {{ item }}
+  with_items:
+    - filename

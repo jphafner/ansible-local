@@ -1,0 +1,35 @@
+---
+- name: Install bash
+  dnf:
+    name: bash
+    state: present
+  become: true
+  when: ansible_distribution == 'Fedora'
+
+- name: Install bash
+  apt:
+    name: bash
+    state: present
+  become: true
+  when: ansible_distribution == 'Debian'
+
+- name: Set bell-style to none
+  lineinfile:
+    path: /etc/inputrc
+    state: present
+    regexp: '^#?set bell-style'
+    line: 'set bell-style none'
+  become: yes
+
+#- name: add custom /etc/profile.d
+#  template:
+#    backup: yes
+#    src: {{ item }}
+#    dest: {{ item }}
+#    owner: root
+#    group: root
+#    mode: 0644
+#    validate: bash -n scriptname
+#  with_items:
+#    - local
+
