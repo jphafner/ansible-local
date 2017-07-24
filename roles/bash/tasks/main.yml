@@ -13,6 +13,29 @@
   become: true
   when: ansible_distribution == 'Debian'
 
+- name: Create ~/.profile.d directory
+  file:
+    path: "{{ ansible_env.HOME }}/.profile.d/"
+    state: directory
+
+- name: Add source ~/.profile.d in ~/.bashrc
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+	state: present
+    regex: '^\s*for file in $HOME/.profile.d/*; do source $file; done'
+    line: 'for file in $HOME/.profile.d/*; do source $file; done'
+
+- name: Add custom ~/.profile.d/
+  template:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.profile.d/{{ item }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0644
+    #validate: bash -n scriptname
+  with_items:
+    - local
+
 - name: Set bell-style to none
   lineinfile:
     path: /etc/inputrc
@@ -20,16 +43,4 @@
     regexp: '^#?set bell-style'
     line: 'set bell-style none'
   become: yes
-
-#- name: add custom /etc/profile.d
-#  template:
-#    backup: yes
-#    src: {{ item }}
-#    dest: {{ item }}
-#    owner: root
-#    group: root
-#    mode: 0644
-#    validate: bash -n scriptname
-#  with_items:
-#    - local
 
