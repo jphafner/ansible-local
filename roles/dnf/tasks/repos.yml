@@ -1,4 +1,5 @@
 ---
+## RPMFusion Repos
 - name: add rpmfusion free and non-free repository
   dnf:
     name: "{{ item }}"
@@ -11,11 +12,12 @@
 - name: add rpmfusion signature keys
   rpm_key:
     state: present
-    key: {{ item }}
+    key: "{{ item }}"
   become: true
   with_fileglob:
     - "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-*"
 
+## Adobe Repos
 - name: add Adobe repository
   dnf:
     name: "http://linuxdownload.adobe.com/adobe-release/adobe-release-{{ dnf_basearch }}-1.0-1.noarch.rpm"
@@ -28,6 +30,7 @@
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
   become: true
 
+## Google Repos
 - name: add Google repositories
   yum_repository:
     state: present
@@ -44,11 +47,11 @@
       - chrome
       - mod-pagespeed
 
-- name: enable fedora-cisco-openh246
-  command: dnf config-manager --set-enabled fedora-cisco-openh246
+- name: enable fedora-cisco-openh264
+  command: dnf config-manager --set-enabled fedora-cisco-openh264
   become: true
 
-#- name: enable fedora-cisco-openh246
+#- name: enable fedora-cisco-openh264
 #  yum_repository:
 #    state: present
 #    file: /etc/yum.repos.d/fedora-cisco-openh264
