@@ -23,7 +23,7 @@
 - name: Install tpm
   git:
     repo: https://github.com/tmux-plugins/tpm
-    dest: ~/.tmux/plugins/tpm"
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
 #- name: Symlink .tmux.conf
 #  file:
@@ -34,7 +34,7 @@
 - name: Change .tmux.conf
   template:
     src: tmux.conf.tpl
-    dest: ~/.tmux.conf
+    dest: "{{ ansible_env.HOME }}/.tmux.conf"
     force: yes
     backup: yes
 
