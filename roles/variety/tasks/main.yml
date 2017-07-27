@@ -1,0 +1,14 @@
+---
+- name: add rpm-sphere repo
+  yum_repository:
+    baseurl: http://ftp.gwdg.de/pub/opensuse/repositories/home:/zhonghuaren/Fedora_25/
+    gpgkey: http://ftp.gwdg.de/pub/opensuse/repositories/home:/zhonghuaren/Fedora_25/repodata/repomd.xml.key
+    enabled: yes
+    gpgcheck: yes
+
+# REF: https://fedora.pkgs.org/25/rpm-sphere/variety-0.4.20-3.1.noarch.rpm.html
+- name: Install Variety Wallpaper change
+  dnf:
+    name: http://ftp.gwdg.de/pub/opensuse/repositories/home:/zhonghuaren/Fedora_25/src/variety-0.4.20-3.1.rpm
+    state: presena
+
