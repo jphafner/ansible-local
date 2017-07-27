@@ -1,13 +1,9 @@
 ---
-- name: Create user ssh_config file
-  copy:
-    src: ssh_config.j2
-    dest: "{{ ansible_env.HOME }}/.ssh/sshd_config"
-    owner: "{{ ansible_env.USER }}"
-    group: "{{ ansible_env.USER }}"
-    mode: '0600'
-    #validate: /usr/sbin/sshd -t -f %s
-    backup: yes
+- name: Create include statement
+  lineinfile:
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    regex: "^Include config.d"
+    line: "Include config.d/*"
 
 - name: Create config.d directory
   file:
@@ -35,6 +31,16 @@
     backup: no
   with_fileglob:
     - id_*
+
+#- name: Create user ssh_config file
+#  copy:
+#    src: ssh_config.j2
+#    dest: "{{ ansible_env.HOME }}/.ssh/config"
+#    owner: "{{ ansible_env.USER }}"
+#    group: "{{ ansible_env.USER }}"
+#    mode: '0600'
+#    validate: /usr/sbin/sshd -t -f %s
+#    backup: yes
 
 
 
