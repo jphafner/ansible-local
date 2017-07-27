@@ -5,11 +5,12 @@
   vars_files:
     - vars/all.yml
     - vars/user.yml
-  vars:
-    system:
-      user: hafnon
+  #vars:
+  #system:
+  #user: hafnon
   roles:
-    - bash
+    #- bash
     #- pass
     #- dnf
+    - ssh
 
