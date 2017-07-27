@@ -1,22 +1,36 @@
 ---
-# Update sshd configuration safely, avoid locking yourself out
-## master with include
-- template:
-    src: template/sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
+- name: Create user ssh_config file
+  template:
+    src: sshd_config.j2
+    dest: "{{ env.home }}/.ssh/sshd_config"
+    owner: "{{ env.user }}"
+    group: "{{ env.user }}"
     mode: '0600'
     validate: /usr/sbin/sshd -t -f %s
     backup: yes
 
-## copy config.d/ to .ssh/config.d/
-- template:
-    src: template/sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
+- name: Copy config files to home
+  template:
+    src: "{{ item }}"
+    dest: "{{ env.home }}/.ssh/config.d/{{ item }}"
+    owner: "{{ env.user }}"
+    group: "{{ env.user }}"
     mode: '0600'
     validate: /usr/sbin/sshd -t -f %s
     backup: yes
+  with_fileglob:
+    - config.d/*.j2
+
+- name: Copy ssh keys to home
+  template:
+    src: "{{ item }}"
+    dest: "{{ env.home }}/.ssh/config.d/{{ item }}"
+    owner: "{{ env.user }}"
+    group: "{{ env.user }}"
+    mode: '0600'
+    backup: yes
+  with_fileglob:
+    - id_*
+
+
 
