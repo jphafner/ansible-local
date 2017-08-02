@@ -5,12 +5,14 @@
   vars_files:
     - vars/all.yml
     - vars/user.yml
-  #vars:
-  #system:
-  #user: hafnon
   roles:
+    - tmux
+    #- vim
     #- bash
     #- pass
     #- dnf
-    - ssh
+    #- git
+    #- ssh
+    #- ansible
+    #- variety
 

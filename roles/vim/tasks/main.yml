@@ -4,15 +4,6 @@
     name: vim
     state: latest
   become: yes
-  when: ansible_distrubition == 'Fedora'
-
-- name: Install vim
-  apt:
-    name: vim
-    state: latest
-    update_cach: no
-  become: yes
-  when: ansible_distrubition == 'Debian'
 
 - name: Install Vundle
   git:
@@ -26,7 +17,7 @@
     force: yes
     backup: yes
 
-- name: install vim bundles
-  shell: vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
-  ignore_errors: yes
+#- name: install vim bundles
+#  shell: vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
+#  ignore_errors: yes
 

@@ -4,10 +4,10 @@ set -g default-terminal "screen-256color"
 set -g default-shell $SHELL
 
 # set prefix key to space
-unbind C-space
-set -g prefix C-space
+#unbind C-space
+#set -g prefix C-space
 # Also assign Ctrl-space to send the prefix to a remote session
-bind-key C-space send-prefix
+#bind-key C-space send-prefix
 # index windows at 1 instead of 0 (easier keyboard nav)
 set -g base-index 1
 set-window-option -g pane-base-index 1

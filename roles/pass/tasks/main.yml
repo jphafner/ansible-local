@@ -14,10 +14,10 @@
   become: yes
   when: ansible_distribution == 'Debian'
 
+#- name: copy password-store directory
+#  template:
+#    src: {{ item }}
+#    dest: {{ item }}
+#  with_fileglob:
+#    - filename
 
-- name: copy password-store directory
-  template:
-    src: {{ item }}
-    dest: {{ item }}
-  with_items:
-    - filename
