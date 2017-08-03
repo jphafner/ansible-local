@@ -1,0 +1,5 @@
+---
+- name: Selinux Enforcing
+  selinux:
+      policy: targeted
+      state: encforcing

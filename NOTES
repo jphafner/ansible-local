@@ -3,10 +3,7 @@
 - Prezto for zsh shell
 - configure gnome power settings
 - configure firefox plugins
-
-
-
-https://github.com/jistr/ansible-gsetting
+- security, selinux, sshd, 
 
 dnf install flash-plugin alsa-plugins-pulseaudio libcurl
 
