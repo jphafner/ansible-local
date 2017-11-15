@@ -16,7 +16,7 @@
     repo: https://github.com/tmux-plugins/tpm
     dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
-- name: Change .tmux.conf
+- name: Tmux configuration file
   template:
     src: tmux.tpl
     dest: "{{ ansible_env.HOME }}/.tmux.conf"

@@ -1,0 +1,33 @@
+---
+- name: add modules
+  template:
+    src:
+    dest:
+    backup: yes
+
+
+#> kadmin -p cohoe/admin Authenticating as principal cohoe/admin with password.
+# Password for cohoe/admin@GRANTCOHOE.COM: 
+#> kadmin: ank -randkey radius/miranda.csh.rit.edu@GRANTCOHOE.COM
+In my case, I did not have a host principal created. So I needed to do that.
+
+#> kadmin: ank -randkey host/miranda.csh.rit.edu@GRANTCOHOE.COM
+#So once you created your keys, you need to dump them to a keytab file.
+
+#> kadmin: ktadd -k /etc/krb5.keytab host/miranda.csh.rit.edu@GRANTCOHOE.COM
+#> kadmin: ktadd -k /etc/krb5.keytab radius/miranda.csh.rit.edu@GRANTCOHOE.COM
+
+#Test your new credentials.
+#> kinit -k -t /etc/krb5.keytab radius/miranda.csh.rit.edu@GRANTCOHOE.COM
+#> kinit -k -t /etc/krb5.keytab host/miranda.csh.rit.edu@GRANTCOHOE.COM
+
+## Validate
+
+#> radtest test password localhost 0 l0calp4ss
+Sending Access-Request of id 139 to 127.0.0.1 port 1812
+    User-Name = "cohoe"
+    User-Password = "password"
+    NAS-IP-Address = 129.21.50.104
+    NAS-Port = 0
+rad_recv: Access-Accept packet from host 127.0.0.1 port 1812, id=139, length=20
+
