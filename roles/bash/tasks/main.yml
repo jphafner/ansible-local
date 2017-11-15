@@ -22,8 +22,11 @@
   lineinfile:
     path: "{{ ansible_env.HOME }}/.bashrc"
     state: present
-    regexp: 'for file in $HOME/.profile.d/*; do source $file; don'
+    regexp: 'for file in $HOME/.profile.d/*; do source $file; done'
     line: 'for file in $HOME/.profile.d/*; do source $file; done'
+
+  #blockinfile
+
 
 - name: Add custom ~/.profile.d/
   copy:
