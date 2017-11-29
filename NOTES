@@ -1,8 +1,4 @@
 
-## TODO
--[ ] ssh_config template, remove config.d files, these are too locally specific
-
-
 # Ideas:
 - Prezto for zsh shell
 - configure gnome power settings
@@ -25,25 +21,11 @@ dnf install flash-plugin alsa-plugins-pulseaudio libcurl
     group: wheel
     mode: 0644
 
-# The same example, but using symbolic modes equivalent to 0644
-- template:
-    src: /mytemplates/foo.j2
-    dest: /etc/file.conf
-    owner: bin
-    group: wheel
-    mode: "u=rw,g=r,o=r"
-
 # Create a DOS-style text file from a template
 - template:
     src: config.ini.j2
     dest: /share/windows/config.ini
     newline_sequence: '\r\n'
-
-# Copy a new "sudoers" file into place, after passing validation with visudo
-- template:
-    src: /mine/sudoers
-    dest: /etc/sudoers
-    validate: 'visudo -cf %s'
 
 # Update sshd configuration safely, avoid locking yourself out
 - template:
@@ -58,11 +40,8 @@ dnf install flash-plugin alsa-plugins-pulseaudio libcurl
 
 ## Gsettings
 gsettings set org.gnome.desktop.session idle-delay 0
-
 gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-
 gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
-
 gsettings set org.gnome.settings-daemon.plugins.power active false
 
 ## Power management settings are controlled by gsettings keys. 
@@ -78,49 +57,4 @@ org.gnome.desktop.session.idle-delay
 ## Mouse Settings
 gsettings reset-recursively org.gnome.desktop.peripherals.mouse
 gsettings reset-recursively org.gnome.desktop.peripherals.touchpad
-
-
-## directory structure
-
-production                # inventory file for production servers
-staging                   # inventory file for staging environment
-
-group_vars/
-   group1                 # here we assign variables to particular groups
-   group2                 # ""
-host_vars/
-   hostname1              # if systems need specific variables, put them here
-   hostname2              # ""
-
-library/                  # if any custom modules, put them here (optional)
-filter_plugins/           # if any custom filter plugins, put them here (optional)
-
-site.yml                  # master playbook
-webservers.yml            # playbook for webserver tier
-dbservers.yml             # playbook for dbserver tier
-
-roles/
-    common/               # this hierarchy represents a "role"
-        tasks/            #
-            main.yml      #  <-- tasks file can include smaller files if warranted
-        handlers/         #
-            main.yml      #  <-- handlers file
-        templates/        #  <-- files for use with the template resource
-            ntp.conf.j2   #  <------- templates end in .j2
-        files/            #
-            bar.txt       #  <-- files for use with the copy resource
-            foo.sh        #  <-- script files for use with the script resource
-        vars/             #
-            main.yml      #  <-- variables associated with this role
-        defaults/         #
-            main.yml      #  <-- default lower priority variables for this role
-        meta/             #
-            main.yml      #  <-- role dependencies
-        library/          # roles can also include custom modules
-        lookup_plugins/   # or other types of plugins, like lookup in this case
-
-    webtier/              # same kind of structure as "common" was above, done for the webtier role
-    monitoring/           # ""
-    fooapp/               # ""
-
 
