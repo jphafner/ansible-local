@@ -1,14 +1,21 @@
 ---
-- lineinfile:
-    path: "{{ ansible_env.HOME }}/.gnupg/gpg.conf"
-    regexp: '^personal-digest-preferences'
-    line: 'personal-digest-preferences SHA512'
-- lineinfile
-    path: "{{ ansible_env.HOME }}/.gnupg/gpg.conf"
-    regexp: '^default-preference-list.*SHA512'
+- name: copy gpg.conf
+  template:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.gnupg/{{ item }}"
+    user: "{{ ansible_env.USER }}"
+    mode: 0640
+    backup: yes
+  with_fileglob:
+    - gpg.conf
+    - gpg-agent.conf
 
-    #personal-digest-preferences SHA512
-    #cert-digest-algo SHA512
-    #default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
-    #personal-cipher-preferences TWOFISH CAMELLIA256 AES 3DES
+- name: copy GNUPG keys
+  unarchive:
+    src: "{{ role_path }}/files/gnupg-keys.tar.gz"
+    dest: "{{ ansible_env.HOME }}/.gnupg/private-keys-v1.d/"
+    keep_newer: yes
+    decrypt: no
+    user: "{{ ansible_env.USER }}"
+    mode: 0600
 

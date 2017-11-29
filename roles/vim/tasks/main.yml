@@ -5,6 +5,11 @@
     state: latest
   become: yes
 
+- name: Ensure pack directory
+  file:
+    path: "{{ ansible_env.HOME }}/.vim/pack"
+    state: directory
+
 #- name: Install Vundle
 #  git:
 #    repo: https://github.com/VundleVim/Vundle.vim.git

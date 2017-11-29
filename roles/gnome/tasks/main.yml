@@ -16,32 +16,12 @@
     notify: 
       - restart fooserv
 
-
-- hosts: loc
-  tasks:
-    - name: Ansible template with_items example.
-      template:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
-        mode: 0777
-      with_items:
-        - {src: 'ex.j2',dest: '/home/dnpjose/ex_rew1.txt'}
-        - {src: 'ex2.j2',dest: '/home/dnpjose/ex_rew2.txt'}
-        - {src: 'ex3.j2',dest: '/home/dnpjose/ex_rew3.txt'}
-
-- name: do not remember mount password
-  gsetting:
-    user: jistr
-    key: "{{ key }}"
-    value: "{{ value }}"
-  with_items:
-    - {key: ' ', value: ' '}
-
 - name: shortcut panel-main-menu
-  gsetting: user=jistr
-    key=org.gnome.desktop.wm.keybindings.panel-main-menu
-    value="@as []"
+  gsetting:
+    user: "{{ ansible_env.USER }}"
+    key:  "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_items:
+    - {key: 'org.gnome.desktop.wm.keybindings.panel-main-menu', value: 'string' }
 
 
-          gsettings set org.gnome.settings-daemon.plugins.power active false
-          gsettings set org.gnome.desktop.screensaver idle-activation-enabled false

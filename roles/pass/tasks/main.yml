@@ -14,10 +14,11 @@
   become: yes
   when: ansible_distribution == 'Debian'
 
-#- name: copy password-store directory
-#  template:
-#    src: {{ item }}
-#    dest: {{ item }}
-#  with_fileglob:
-#    - filename
+- name: copy password-store archive
+  unarchive:
+    src: "{{ role_path }}/files/password-store.tar.gz"
+    dest: "{{ ansible_env.HOME }}/.password-store"
+    keep_newer: yes
+    decrypt: no
+    user: "{{ ansible_env.USER }}"
 

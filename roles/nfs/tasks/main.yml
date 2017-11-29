@@ -11,7 +11,7 @@
   lineinfile:
     path: /etc/exports
     regexp: '^/srv'
-    line: '/srv *(rw,sec=krb5,no_subtree_check,no_root_squash)'
+    line: '/srv *(rw,sec=krb5,krb5i,krb5p,no_root_squash)'
   with_items:
     - one for each line in exports
 

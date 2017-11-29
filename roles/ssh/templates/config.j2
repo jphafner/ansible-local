@@ -53,3 +53,6 @@ Host *+*
     ## socat
     #ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1/;s/:/ -p /') exec socat STDIN TCP:$(echo %h | sed 's/^.*+//;/:/!s/$/ %p/;s/:/ /')
 
+## Include All
+Include config.d/config_*
+

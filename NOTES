@@ -1,4 +1,8 @@
 
+## TODO
+-[ ] ssh_config template, remove config.d files, these are too locally specific
+
+
 # Ideas:
 - Prezto for zsh shell
 - configure gnome power settings
